@@ -25,6 +25,7 @@ jobs:
           echo "APP_ID: ${{ vars.APP_ID }}"
           echo "APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}"
           echo "INSTALLATION_ID: ${{ steps.generate-token.outputs.installation-id }}"
+          echo "CORRELATION_ID: ${{ github.event.client_payload.correlation_id }}"
 
       - name: Debug Client Payload
         run: |
