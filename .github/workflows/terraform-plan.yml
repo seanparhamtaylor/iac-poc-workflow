@@ -20,10 +20,16 @@ jobs:
       - name: Debug
         run: |
           echo "APP_ID: ${{ vars.APP_ID }}"
-          echo "APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}"
           echo "APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}"
           echo "INSTALLATION_ID: ${{ steps.generate-token.outputs.installation-id }}"
-          echo "TOKEN: ${{ steps.generate-token.outputs.token }}"
+
+      - name: Debug Repository Information
+        run: |
+          STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN=${{ steps.generate-token.outputs.token }}
+          echo "Repository from payload: ${{ github.event.client_payload.repository }}"
+          echo "Ref from payload: ${{ github.event.client_payload.ref }}"
+          echo "Token length: ${#STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN}"
+          echo "Token first 4 chars: ${STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN:0:4}"
 
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
