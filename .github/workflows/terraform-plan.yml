@@ -32,12 +32,14 @@ jobs:
           echo "Token first 4 chars: ${STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN:0:4}"
 
       - name: Checkout (Test)
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           token: ${{ steps.generate-token.outputs.token }}
           path: test-checkout
 
       - name: Checkout (Test 2)
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           token: ${{ steps.generate-token.outputs.token }}
@@ -45,6 +47,7 @@ jobs:
           path: test-checkout-2
 
       - name: Checkout (Test 3)
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           token: ${{ steps.generate-token.outputs.token }}
