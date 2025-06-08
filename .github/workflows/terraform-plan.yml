@@ -52,4 +52,3 @@ jobs:
         id: plan
         run: terraform plan -no-color
         working-directory: terraform-code
-        continue-on-error: true
