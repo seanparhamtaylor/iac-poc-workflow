@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.event.client_payload.environment || 'default' }}
     env:
-      GITHUB_APP_ID: ${{ vars.APP_ID }}
-      GITHUB_APP_PEM_FILE: ${{ secrets.APP_PRIVATE_KEY }}
+      IAC_POC_PAT_GITHUB_TOKEN: ${{ secrets.IAC_POC_PAT_GITHUB_TOKEN }}
     steps:
       - name: Generate a token
         id: generate-token
@@ -26,8 +25,6 @@ jobs:
           echo "APP_ID: ${{ vars.APP_ID }}"
           echo "APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}"
           echo "INSTALLATION_ID: ${{ steps.generate-token.outputs.installation-id }}"
-
-          echo "GITHUB_APP_INSTALLATION_ID=${{ steps.generate-token.outputs.installation-id }}" >> $GITHUB_ENV
 
       - name: Debug Client Payload
         run: |
