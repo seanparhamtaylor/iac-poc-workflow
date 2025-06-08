@@ -36,6 +36,20 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           path: test-checkout
+
+      - name: Checkout (Test 2)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          repository: seanparhamtaylor/iac-poc
+          path: test-checkout-2
+
+      - name: Checkout (Test 3)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          repository: seanparhamtaylor/iac-poc-api
+          path: test-checkout-3
   
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
