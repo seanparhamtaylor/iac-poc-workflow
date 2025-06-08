@@ -9,21 +9,13 @@ jobs:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
     environment: ${{ github.event.client_payload.environment || 'default' }}
-    
     steps:
-      - name: Generate GitHub App Token
+      - name: Generate a token
         id: generate-token
-        uses: actions/github-script@v7
+        uses: actions/create-github-app-token@v2
         with:
-          script: |
-            const app = require('@octokit/auth-app');
-            const auth = new app.AppAuth({
-              appId: process.env.APP_ID,
-              privateKey: process.env.APP_PRIVATE_KEY,
-              installationId: process.env.INSTALLATION_ID
-            });
-            const { token } = await auth({ type: "installation" });
-            core.setOutput('token', token);
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
