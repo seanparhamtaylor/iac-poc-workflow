@@ -17,6 +17,14 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Debug
+        run: |
+          echo "APP_ID: ${{ vars.APP_ID }}"
+          echo "APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}"
+          echo "APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}"
+          echo "INSTALLATION_ID: ${{ steps.generate-token.outputs.installation-id }}"
+          echo "TOKEN: ${{ steps.generate-token.outputs.token }}"
+
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
         with:
