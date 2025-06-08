@@ -1,0 +1,47 @@
+name: Terraform Plan
+
+on:
+  repository_dispatch:
+    types: [terraform-plan]
+
+jobs:
+  plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.client_payload.environment || 'default' }}
+    
+    steps:
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const app = require('@octokit/auth-app');
+            const auth = new app.AppAuth({
+              appId: process.env.APP_ID,
+              privateKey: process.env.APP_PRIVATE_KEY,
+              installationId: process.env.INSTALLATION_ID
+            });
+            const { token } = await auth({ type: "installation" });
+            core.setOutput('token', token);
+
+      - name: Checkout Terraform Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          repository: ${{ github.event.client_payload.repository }}
+          ref: ${{ github.event.client_payload.ref }}
+          path: terraform-code
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform-code
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        working-directory: terraform-code
+        continue-on-error: true
