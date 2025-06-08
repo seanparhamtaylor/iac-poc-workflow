@@ -29,37 +29,10 @@ jobs:
 
           echo "GITHUB_APP_INSTALLATION_ID=${{ steps.generate-token.outputs.installation-id }}" >> $GITHUB_ENV
 
-      - name: Debug Repository Information
+      - name: Debug Client Payload
         run: |
-          STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN=${{ steps.generate-token.outputs.token }}
-          echo "Repository from payload: ${{ github.event.client_payload.repository }}"
-          echo "Ref from payload: ${{ github.event.client_payload.ref }}"
-          echo "Token length: ${#STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN}"
-          echo "Token first 4 chars: ${STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN:0:4}"
+          echo "Payload: ${{ toJson(github.event.client_payload) }}"
 
-      - name: Checkout (Test)
-        continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          path: test-checkout
-
-      - name: Checkout (Test 2)
-        continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          repository: seanparhamtaylor/iac-poc
-          path: test-checkout-2
-
-      - name: Checkout (Test 3)
-        continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          repository: seanparhamtaylor/iac-poc-api
-          path: test-checkout-3
-  
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
         with:
