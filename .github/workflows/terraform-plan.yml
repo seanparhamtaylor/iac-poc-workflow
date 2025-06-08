@@ -1,5 +1,5 @@
 name: Terraform Plan
-
+run-name: 'Terraform Plan CID: ${{ github.event.client_payload.correlation_id }}'
 on:
   repository_dispatch:
     types: [terraform-plan]
