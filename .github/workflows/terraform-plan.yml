@@ -31,6 +31,12 @@ jobs:
           echo "Token length: ${#STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN}"
           echo "Token first 4 chars: ${STEPS_GENERATE_TOKEN_OUTPUTS_TOKEN:0:4}"
 
+      - name: Checkout (Test)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          path: test-checkout
+  
       - name: Checkout Terraform Repository
         uses: actions/checkout@v4
         with:
